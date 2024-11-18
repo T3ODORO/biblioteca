@@ -1,81 +1,69 @@
 package com.biblioteca.biblioteca.entity;
 
+import com.biblioteca.biblioteca.dto.CreateLivrosDto;
+import com.biblioteca.biblioteca.dto.UpdateLivrosDto;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "livros")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Livros implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String titulo;
 
-    @Column(nullable = false, unique = true)
     private String isbn;
 
-    @Column(nullable = false)
     private Boolean disponibilidade;
 
-    @ManyToOne
-    @JoinColumn(name = "editora_id", nullable = false)
-    private Editora editora;
+    private Boolean ativo;
 
-    @ManyToMany(mappedBy = "livros")
-    private Set<Autor> autores = new HashSet<>();
+    private String editora;
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
+    private String autores;
+
+
+
+    public Livros(CreateLivrosDto dados) {
+        this.titulo = dados.titulo();
+        this.isbn = dados.isbn();
+        this.disponibilidade = dados.disponibilidade();
+        this.ativo = dados.ativo();
+        this.editora = dados.editora();
+        this.autores = dados.autores();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void updateLivro(UpdateLivrosDto dados) {
+        if(dados.titulo() != null){
+            this.titulo = dados.titulo();
+        }
+        if(dados.isbn() != null){
+            this.isbn = dados.isbn();
+        }
+        if(dados.disponibilidade() != null){
+            this.disponibilidade = dados.disponibilidade();
+        }
+        if(dados.editora() != null){
+            this.editora = dados.editora();
+        }
+        if(dados.autores() != null){
+            this.autores = dados.autores();
+        }
 
-    public String getTitulo() {
-        return titulo;
-    }
+}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Boolean getDisponibilidade() {
-        return disponibilidade;
-    }
-
-    public void setDisponibilidade(Boolean disponibilidade) {
-        this.disponibilidade = disponibilidade;
-    }
-
-    public Editora getEditora() {
-        return editora;
-    }
-
-    public void setEditora(Editora editora) {
-        this.editora = editora;
-    }
-
-    public Set<Autor> getAutores() {
-        return autores;
-    }
-
-    public void setAutores(Set<Autor> autores) {
-        this.autores = autores;
+    public void excluir() {
+        this.ativo = false;
     }
 }
