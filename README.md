@@ -53,7 +53,7 @@ Certifique-se de ter as ferramentas necessárias instaladas antes de executar a 
 ## 🚀 Como Executar
 
 ### 1️⃣ Configure o Banco de Dados
-- Certifique-se de que o MySQL está rodando.
+- Certifique-se de que o PostgreSql está rodando.
 - Crie o banco de dados com o nome `biblioteca`.
 - Atualize as credenciais no arquivo `application.properties` localizado em `src/main/resources`.
 
